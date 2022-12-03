@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+//
+class Student {
+    static  count =0;
+
+constructor(name, age, phone, marks){
+this.name = name;
+this.age = age;
+this.phone= phone;
+this.marks= marks;
+Student.count++;
+}
+
+eligibility(marks) {
+    return (age) =>{
+        if(this.marks>40 && this.age >18)
+        {
+            console.log(`${this.name} is eligible`);
+        }
+        else{
+            console.log(`${this.name} is not eligible`);
+        }
+    }
+}
+totalUsers(){
+    console.log(Student.count);
+}
+}
+
+let studentArray = [];
+let stud1 = new Student('aran',19,54645,40);
+let stud2 = new Student('vishal', 20,7454,87);
+let stud3 = new Student('Indresh', 25, 4884, 35);
+let stud4 = new Student('jack',15,45623,30);
+let stud5 = new Student('jill',18,789845,85);
+studentArray.push(stud1);
+studentArray.push(stud2);
+studentArray.push(stud3);
+studentArray.push(stud4);
+studentArray.push(stud5);
+
+// for(let i =0; i<studentArray.length; i++)
+// {
+//     let checkingEligibility = studentArray[i].eligibility(this.marks)(this.age);
+// }
+
+studentArray.forEach((item) => {
+    let checkingEligibility = item.eligibility(this.marks)(this.age);
+})
+
+
+
+
+
+
+
+//Fat Arrow Function
+// var getA =(a)=> {return a}
+// console.log(getA(2));
+
+// var squareA=(a)=> { return a*a};
+// console.log(squareA(4));
+
+// var multi = (a,b) => {return a*b};
+// console.log(multi(6,8));
+
+// var x = function(){
+//     this.val =1;
+//     setTimeout(() => {
+//         this.val++;
+//         console.log(this.val);
+//     },1);
+// }
+// //var xx = new x();
+// x();
+
+// //Creating a class named Student
+// class Student {
+//     static  count =0;
+
+// constructor(name, age, phone, marks){
+// this.name = name;
+// this.age = age;
+// this.phone= phone;
+// this.marks= marks;
+// Student.count++;
+// }
+
+// eligibility() {
+//     if(this.marks >40)
+//     {
+//         console.log(`${this.name} is eligible`);
+//     }
+//     else{
+//         console.log(`${this.name} is not eligible`)
+//     }
+// }
+// totalUsers(){
+//     console.log(Student.count);
+// }
+// }
+// let jack = new Student('jack',15,45623,30);
+// let jill = new Student('jill',18,789845,85);
+// let stud1 = new Student('aran',19,54645,40);
+// let stud2 = new Student('vishal', 20,7454,87);
+// let stud3 = new Student('Indresh', 25, 4884, 52);
+
+// jill.totalUsers();
+// jill.eligibility();
+// jack.eligibility();
+
+//console.log(jack.age);
+
+//Using this at global level
+//this.table = "window table";
+//console.log(window.table);
+
+//creating object using this keyword
+// this.garage = {
+//     table: 'Garage Table'
+// };
+// let johnRoom ={
+//     table: 'Johns Table'
+// };
+// let cleanTable = function(soap){
+//     let innerFunction= (_soap) => {
+//     console.log(`I am ${this.table} and using ${soap} to clean table`);
+//     }
+//     innerFunction(soap);
+// }
+//cleanTable.call(this, 'ghadi');
+//cleanTable.call(johnRoom, 'some soap');
+//cleanTable.call(this.garage, 'lifebuoy');
+
+
+//Using this keyword inside constructor 
+// let createRoom = function(name){ // creating constructor to create multiple rooms
+//     this.table = `${name} table`;
+// }
+// createRoom.prototype.cleanTable = function(soap){
+//     let innerFunction= (_soap) => {
+//     console.log(`I am ${this.table} and using ${soap} to clean table`);
+//     }
+//     innerFunction(soap);
+// }
+// let jillsRoom = new createRoom('jills');
+// let johnRoom = new createRoom('johns');
+
+// jillsRoom.cleanTable('some soap');
+
+// Using this keyword inside class
+// class createRoom {
+//     constructor (name){
+//         this.table = `${name} table`;
+//     }
+//     cleanTable = function(soap){
+//      console.log(`I am ${this.table} and using ${soap} to clean table`); 
+//     }
+
+// }
+
+// let jillsRoom = new createRoom('jills');
+// let johnRoom = new createRoom('johns');
+
+// jillsRoom.cleanTable('some soap');
+// johnRoom.cleanTable('lifebuoy');
+
+//cleanTable.call(this, 'ghadi');
+//cleanTable.call(johnRoom, 'some soap');
+//cleanTable.call(this.garage, 'lifebuoy');
+//johnRoom.cleanTable();
+//this.garage.cleanTable();
+
+
+
+    </script>
+</body>
+</html>
