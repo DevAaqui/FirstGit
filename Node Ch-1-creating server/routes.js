@@ -16,7 +16,7 @@ if(url==='/')
         res.write(`<body>${data}</body>`)
         res.write('<body><form action="/message" method="POST"><input type="text" name="msg"><button type="submit">Send</button</form></body>')
         res.write('</html')
-        return res.end()
+        return res.end();
 
     })
 
@@ -39,7 +39,6 @@ if(url === '/message' && method ==='POST')
        })
        
     }) 
-
 }
 
 // res.setHeader('Content-Type','text/html')
@@ -51,4 +50,13 @@ if(url === '/message' && method ==='POST')
 
 }
 
-module.exports = requestHandler
+// module.exports = {
+//      handler: requestHandler,
+//      someText: 'Some hard code'
+// }
+
+// module.exports.handler = requestHandler
+// module.exports.someText = 'Some hard coded Text'
+
+exports.handler = requestHandler
+exports.someText = 'Some hard coded Text'
