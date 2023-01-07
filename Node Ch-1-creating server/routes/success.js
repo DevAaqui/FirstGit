@@ -5,9 +5,11 @@ const express = require('express')
 
 const router = express.Router()
 
-router.get('/',(req,res,next)=>{
+router.get('/success',(req,res,next)=>{
+
+    res.send(`Success!`)
     
-    res.sendFile(path.join(rootDir,'views','shop.html'))
+    res.sendFile(path.join(rootDir,'views','success.html'))
 })
 
 module.exports = router
