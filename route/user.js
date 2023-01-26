@@ -6,6 +6,8 @@ const userController = require('../controller/userCont')
 
 const router = express.Router()
 
+router.post('/user/login', userController.postLogin)
+
 router.post('/user/signup',userController.postUsers)
 
 
