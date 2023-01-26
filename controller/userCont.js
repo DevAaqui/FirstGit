@@ -1,13 +1,16 @@
 const { json } = require('body-parser')
 const User = require('../model/userModel')
+const bcrypt = require('bcrypt')
 
 exports.postUsers = async (req,res,next) => {
-    const name = req.body.name
-    const email = req.body.email
-    const password = req.body.password
+
+    const { name, email, password } = req.body
+    // const name = req.body.name
+    // const email = req.body.email
+    // const password = req.body.password
 
     const users = await User.findAll()  // array
-    console.log(users[0])
+    //console.log(users[0])
     for(let i=0; i<users.length; i++){
         if(users[i].email === email)
         {
@@ -16,61 +19,52 @@ exports.postUsers = async (req,res,next) => {
             return res.send(responseObject)
         }
     }
-    // users.forEach(user => {
-        
-    //     if(email === user.email)
-    //     {
-    //         console.log(user.email)
-    //         console.log(email)
-    //         return res.statusText ='Already this email is taken'
-    //     }
-    // });
-
-    const data = await User.create({
-        name: name,
-        email: email,
-        password: password
-    })
     
-    res.json({data: data})
+    bcrypt.hash(password,10, async (err, hash)=> {
+        const data = await User.create({
+            name: name,
+            email: email,
+            password: hash
+        })
+        
+        res.json({data: data, message: 'User Created'})
+
+    })   
+    
     
 }
 
 exports.postLogin = async (req,res,next) => {
     
 
-    const email = req.body.email
-    const password = req.body.password
+    const {email, password} = req.body
+         
+    console.log("email " + email)
+    console.log("password " + password)
 
-    //console.log(JSON.stringify(req))
-    
-    console.log("email" + email)
-    console.log("password" + password)
 
-    let responseObject
+    const loginUser = await User.findAll({where: {email}}) //use [0] with findAll()
+   
 
-    const loginUsers = await User.findAll()
-   // const loginUser = await User.findOne({where: {email : email}})
+    if(loginUser.length>0){
 
-    //console.log(loginUsers.email)
-    
-    for(let i=0; i<loginUsers.length; i++)
-    {
+        bcrypt.compare(password, loginUser[0].password, async (err, result) => {
 
-    if(loginUsers[i].email === email && loginUsers[i].password === password)
-    {
-        console.log('inside if',loginUsers[i].email)
-        responseObject = { message: 'credentials matched' } 
-        return res.json(responseObject)
+            if(err) {
+                throw new Error('some error ocured')
+            }
+            if(result === true){
+                res.status(200).json({ message: 'credentials matched', success: true})
+            }
+            else {
+                res.json({ message: 'not matched', success: false})
+            }
+
+         })   
     }
-    else 
-    {
-        console.log('inside else',loginUsers[0].email)
-        responseObject = { message: 'not matched'}
-        return res.json(responseObject)
-    }
-
-    }
+    else{
+        return res.json({message: 'user do not exist', success: false})
+    } 
 
 }
 

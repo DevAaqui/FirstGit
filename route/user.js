@@ -1,5 +1,7 @@
 const path = require('path')
 
+const bcrypt = require('bcrypt')
+
 const express = require('express')
 
 const userController = require('../controller/userCont')
