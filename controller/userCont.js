@@ -71,40 +71,10 @@ exports.postLogin = async (req,res,next) => {
     }
 
     }
-    
-    //return res.json(responseObject)
 
+}
 
-    // console.log(loginUsers[0].email)
-    // console.log(loginUsers[0].password)
-//     console.log(loginUsers)
-
-//     for(let i=0; i<loginUsers.length; i++){
-//         if(loginUsers[i].dataValues.email === email && loginUsers[i].dataValues.password === password)
-//         {
-//             // console.log(email)
-//             // console.log(password)
-//             responseObject = { message: 'credentials matched' }
-//             return res.send(responseObject)
-//         }
-//         else if(loginUsers[i].email === email && loginUsers[i].password !== password)
-//         {
-//             responseObject = { message: 'password wrong' }
-//             return res.send(responseObject)
-//         }
-//         else if(loginUsers[i].email !== email && loginUsers[i].password === password)
-//         {
-//             responseObject = { message: 'email wrong' }
-//             return res.send(responseObject)
-//         }
-//         else{
-//             // console.log(email)
-//             // console.log(password)
-//             responseObject = { message: 'Not Registered' }
-//             return res.send(responseObject)
-//         }
-
-//    }
-//    return res.send(responseObject)
-
+exports.getUser404 = (req,res,next) => {
+    let responseObject = { message: 'user not found'}
+    res.json(responseObject)
 }

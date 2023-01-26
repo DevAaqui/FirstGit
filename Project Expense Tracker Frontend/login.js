@@ -37,6 +37,9 @@ function showMessage(msg) {
         alert('Login Successfull')
     }
     else if(msg === 'not matched'){
-        alert('Login Unsuccessfull')
+        axios.get('http://localhost:3000/user/login/404')
+        .then(response => {
+            document.body.innerHTML = `<h1>Error: User not found</h1>`
+        })
     }
 }
