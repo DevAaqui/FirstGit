@@ -1,5 +1,6 @@
 const { json } = require('body-parser')
 const User = require('../model/userModel')
+
 const bcrypt = require('bcrypt')
 
 exports.postUsers = async (req,res,next) => {
@@ -67,6 +68,8 @@ exports.postLogin = async (req,res,next) => {
     } 
 
 }
+
+
 
 exports.getUser404 = (req,res,next) => {
     let responseObject = { message: 'user not found'}
