@@ -22,6 +22,7 @@ function onSubmit() {
     .then(response => {
         //console.log(response.data.message)
         const msg = response.data.message
+        localStorage.setItem('token', response.data.token)
         
         showMessage(msg)
         //return false
