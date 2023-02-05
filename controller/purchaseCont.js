@@ -4,15 +4,16 @@ const user = require('./userCont')
 const { where } = require('sequelize')
 
 const purchasepremium = async (req,res) => {
-    console.log('in premium', req.user.isPremiumUser)
+    try{
+        console.log('in premium', req.user.isPremiumUser)
     if(req.user.isPremiumUser === true){
         return res.json({message:'premium user', success: true})
     }
     else{
-        try{
+        
             var rzp = new RazorPay({
-                key_id: 'rzp_test_7YcvGKO0ZI1rJV',
-                key_secret: 'Y2azvrtKE53b2XkYzTXarCi7'
+                key_id: 'rzp_test_elbmJGoyUbN8Cr',
+                key_secret: 'oLP2ROxQfejnxyDAKRuBgaQm'
             })
             const amount = 2500
     
@@ -28,12 +29,14 @@ const purchasepremium = async (req,res) => {
             })
     
         }
-        catch(err){
-            console.log(err)
-            res.status(403).json({message: 'Something went wrong', error: err})
-        }
+        
 
     }
+    catch(err){
+        console.log(err)
+        res.status(403).json({message: 'Something went wrong', error: err})
+    }
+    
     
         
 }

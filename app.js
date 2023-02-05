@@ -22,6 +22,7 @@ app.use(cors())
 const userRoutes = require('./route/user')
 const expenseRoutes = require('./route/expenseR')
 const orderRoutes = require('./route/purchaseR')
+const premiumRoutes = require('./route/premiumR')
 
 
 app.use(bodyParser.json({extended: false}))
@@ -31,6 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(userRoutes)
 app.use(expenseRoutes)
 app.use(orderRoutes)
+app.use(premiumRoutes)
 
 User.hasMany(Expense)
 Expense.belongsTo(User)

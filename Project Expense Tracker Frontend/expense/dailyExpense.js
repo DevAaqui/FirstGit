@@ -5,6 +5,8 @@ document.body.style.background ='#AFE1AF'
 
 let itemList = document.getElementById('items')
 
+let boardItems = document.getElementById('boardItems')
+
 //let form = document.getElementById('spentForm')
 
 //form.addEventListener('submit', onSubmit)
@@ -136,6 +138,36 @@ document.getElementById('rzp-button1').onclick = async function(e) {
 function premiumUserfunc(){
     let btn = document.getElementById('rzp-button1')
     let mySpan = document.createElement("span")
-    mySpan.innerHTML = 'Premium'
+    mySpan.innerHTML = 'You are a Premium User'
     btn.parentNode.replaceChild(mySpan,btn)
+
+    // let leaderBoardBtn = `<button id="leaderbtn" onclick="showLeaderboard()">Show LeaderBoard</button`
+    var leaderBoardBtn = document.createElement('button')
+    leaderBoardBtn.textContent= 'Show LeaderBoard'
+    document.body.appendChild(leaderBoardBtn)
+
+    leaderBoardBtn.onclick =  function(e) {
+        e.preventDefault()
+        axios.get('http://localhost:3000/premium/leaderboard')
+       .then(response => {
+        let arr = response.data.userAExpenseDetails
+            for(let i=0; i<arr.length; i++)
+            {
+                addNewBoardLines(arr[i])
+            }
+
+        })
+    }
+
+}
+
+function addNewBoardLines(obj) {
+    let li =`<li>Name: ${obj.Name}-- TotalExpenses: ${obj.TotalExpenses} </li`  
+
+    showOnBoardScreen(li)
+}
+
+function showOnBoardScreen(li)
+{
+    boardItems.innerHTML = boardItems.innerHTML + li
 }
