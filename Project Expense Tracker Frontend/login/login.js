@@ -48,3 +48,7 @@ function showMessage(msg) {
         })
     }
 }
+
+function onPass(){
+    window.location.href ='./forgotpassform.html'
+}

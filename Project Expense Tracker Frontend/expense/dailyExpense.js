@@ -162,7 +162,7 @@ function premiumUserfunc(){
 }
 
 function addNewBoardLines(obj) {
-    let li =`<li>Name: ${obj.Name}-- TotalExpenses: ${obj.TotalExpenses} </li`  
+    let li =`<li>Name: ${obj.name}-- TotalExpenses: ${obj.totalExpense} </li`  
 
     showOnBoardScreen(li)
 }

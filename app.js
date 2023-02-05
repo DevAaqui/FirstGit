@@ -23,6 +23,7 @@ const userRoutes = require('./route/user')
 const expenseRoutes = require('./route/expenseR')
 const orderRoutes = require('./route/purchaseR')
 const premiumRoutes = require('./route/premiumR')
+const forgotRoutes = require('./route/forgotPassR')
 
 
 app.use(bodyParser.json({extended: false}))
@@ -33,6 +34,7 @@ app.use(userRoutes)
 app.use(expenseRoutes)
 app.use(orderRoutes)
 app.use(premiumRoutes)
+app.use(forgotRoutes)
 
 User.hasMany(Expense)
 Expense.belongsTo(User)
