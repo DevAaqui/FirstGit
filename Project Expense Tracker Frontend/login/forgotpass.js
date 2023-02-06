@@ -11,7 +11,7 @@ function onSubmit(e) {
 
     let forgotObj = {
         email: document.getElementById('email').value,
-        upPass: document.getElementById('password').value
+        //upPass: document.getElementById('password').value
     }
 
     axios.post('http://localhost:3000/password/forgotpassword', forgotObj, {headers: {'Authorization': token}})

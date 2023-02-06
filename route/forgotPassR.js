@@ -8,6 +8,6 @@ const forgotController = require('../controller/forgotCont')
 
 const router = express.Router()
 
-router.post('/password/forgotpassword',userAuthentication.authenticate, forgotController.forgotpassword )
+router.post('/password/forgotpassword', forgotController.forgotpassword )
 
 module.exports = router
