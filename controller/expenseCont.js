@@ -1,5 +1,7 @@
 const Expense = require('../model/expense')
+const User = require('../model/userModel')
 const jwt = require('jsonwebtoken')
+//const user = require('./userCont')
 
 exports.postAddExpense = async (req,res,next) => {
     try{
@@ -17,9 +19,19 @@ exports.postAddExpense = async (req,res,next) => {
             description: descrip,
             category: categ,
             userId : userId
-         })
+        })
 
-        res.json({data: data , message: 'Expense Created'})
+        
+        
+        let totalExpense = Number(req.user.totalExpense) +Number(money)
+        console.log('totalExpense>>>>>>>>>>>>>>',totalExpense)
+        User.update({totalExpense: totalExpense}, {where:{id: req.user.id}})
+        .then(()=>{
+            res.json({data: data , message: 'Expense Created'})
+        })
+        .catch(err=>console.log(err))
+
+        
 
     }
     catch(err){

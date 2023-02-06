@@ -151,6 +151,7 @@ function premiumUserfunc(){
         axios.get('http://localhost:3000/premium/leaderboard')
        .then(response => {
         let arr = response.data.userAExpenseDetails
+        console.log(arr)
             for(let i=0; i<arr.length; i++)
             {
                 addNewBoardLines(arr[i])

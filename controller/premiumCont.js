@@ -5,19 +5,15 @@ const sequelize = require('../util/database')
 const leaderboard = async (req,res)=> {
     try{
         let userAndExpenseObject = []
-        let leaderboardofusers = await User.findAll({
-        attributes: ['id','name', [sequelize.fn('sum', sequelize.col('expenses.spent')), 'totalExpense']],
-        include: [
-            {
-                model: Expense,
-                attributes: []
-            }
-            
-        ],
-        group: ['user.id'],
-        order: [['totalExpense', 'DESC']]
-    }) 
+        let leaderboardofusers = await User.findAll() 
 
+        let sortedUsers = leaderboardofusers.sort((a,b)=> {
+            return b.totalExpense - a.totalExpense
+        })
+
+        for(let i=0; i<sortedUsers.length; i++){
+            userAndExpenseObject.push({name: sortedUsers[i].name , totalExpense: sortedUsers[i].totalExpense})
+        }
     
 
     // let sortedArray = userAndExpenseObject.sort((a,b) => {
@@ -25,7 +21,7 @@ const leaderboard = async (req,res)=> {
     // })
     
     
-    return res.json({userAExpenseDetails: leaderboardofusers, success: true})
+    return res.json({userAExpenseDetails: userAndExpenseObject, success: true})
     }  
     //     let expenses = await expenses.findAll({
     //         attributes: ['userId', ],
