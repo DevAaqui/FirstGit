@@ -172,3 +172,22 @@ function showOnBoardScreen(li)
 {
     boardItems.innerHTML = boardItems.innerHTML + li
 }
+
+function download(){
+    const token = localStorage.getItem('token')
+    axios.get('http://localhost:3000/user/download', {headers: {'Authorization': token}})
+    .then(response => {
+        if(response.status === 201) {
+            //the backend is essentially sending a download link
+            //  which if we open in browser, the file would download
+            var a = document.createElement('a')
+            a.href = response.data.fileUrl
+            a.download = 'myexpense.csv'
+            a.click()
+        }
+        else{
+            throw new Error(err)
+        }
+    })
+    .catch(err => console.log(err))
+}
