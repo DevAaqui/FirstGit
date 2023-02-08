@@ -24,6 +24,7 @@ const expenseRoutes = require('./route/expenseR')
 const orderRoutes = require('./route/purchaseR')
 const premiumRoutes = require('./route/premiumR')
 const forgotRoutes = require('./route/forgotPassR')
+const ResetPass = require('./model/resetpassModel')
 
 
 app.use(bodyParser.json({extended: false}))
@@ -41,6 +42,9 @@ Expense.belongsTo(User)
 
 User.hasMany(Order)
 Order.belongsTo(User)
+
+User.hasMany(ResetPass)
+ResetPass.belongsTo(User)
 
 
 sequelize .sync()

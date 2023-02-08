@@ -8,6 +8,11 @@ const forgotController = require('../controller/forgotCont')
 
 const router = express.Router()
 
-router.post('/password/forgotpassword', forgotController.forgotpassword )
+router.use('/password/updatepassword/:resetpasswordId', forgotController.updatePassword)
+
+router.use('/password/resetpassword/:resetId', forgotController.resetPassword)
+
+router.use('/password/forgotpassword', userAuthentication.authenticate, forgotController.forgotpassword )
+
 
 module.exports = router
