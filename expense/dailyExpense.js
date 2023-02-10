@@ -7,6 +7,8 @@ let itemList = document.getElementById('items')
 
 let boardItems = document.getElementById('boardItems')
 
+let pagination = document.getElementById('pagination')
+
 //let form = document.getElementById('spentForm')
 
 //form.addEventListener('submit', onSubmit)
@@ -174,35 +176,107 @@ function showOnBoardScreen(li)
 }
 
 function download(){
-    const token = localStorage.getItem('token')
-    axios.get('http://localhost:3000/expense/downloadexpense', {headers: {'Authorization': token}})
+    const page =1
+
+    axios.get(`http://localhost:3000/expense/pagination?page=${page}`)
     .then(response => {
-        if(response.status === 201) {
-
-            let linksArray = response.data.allLinks
-            console.log(linksArray)
-            for(let i=0; i<linksArray.length; i++)
-            {
-                showLinks(linksArray[i])
-            }
-            
-            //the backend is essentially sending a download link
-            //  which if we open in browser, the file would download
-            var a = document.createElement('a')
-            a.href = response.data.fileURL
-            a.download = 'myexpense.csv'
-            a.click()
-        }
-        else{
-            throw new Error(err)
-        }
+        listExpense(response.data.files)
+        showPagination(response.data)
     })
-    .catch(err => console.log(err))
+    .catch(err=>console.log(err))
 }
 
-function showLinks(urlObjects)
-{
-    let linksItems = document.getElementById('downloadlinks')
-    let li =`<li>Date: ${urlObjects.createdAt}- Link: <a href="${urlObjects.dlink}">Download Links</a> </li>`
-    linksItems.innerHTML = linksItems.innerHTML + li
+function listExpense(expenseData){
+    console.log(expenseData)
+    let list = document.getElementById('downloadlinks')
+
+    list.innerHTML=''
+    
+    expenseData.forEach((expense)=> {
+        let li = `<li>Date: ${expense.createdAt}-- Link: <a href="${expense.dlink}">Link</a></li>`
+        //list.appendChild(li)
+
+        list.innerHTML= list.innerHTML + li
+
+    })
 }
+
+function showPagination({
+    currentPage,
+    hasNextPage,
+    nextPage,
+    hasPreviousPage,
+    previousPage,
+    lastPage
+}){
+    pagination.innerHTML = '' // Need to know what Pagination is
+
+    if(hasPreviousPage){
+        const btn2 = document.createElement('button')
+        btn2.innerHTML = previousPage
+        btn2.addEventListener('click', ()=> getProducts(previousPage) )
+        pagination.appendChild(btn2)
+    }
+
+    const btn1 = document.createElement('button')
+    btn1.innerHTML= `<h3>${currentPage}</h3>`
+    btn1.addEventListener('click', ()=> getProducts(currentPage) )
+    pagination.appendChild(btn1)
+
+    if(hasNextPage){
+        const btn3 = document.createElement('button')
+        btn3.innerHTML = nextPage
+        btn3.addEventListener('click', ()=> getProducts(nextPage) )
+        pagination.appendChild(btn3)
+    }
+
+}
+
+function getProducts(page){
+    axios.get(`http://localhost:3000/expense/pagination?page=${page}`)
+    .then(response => {
+        listExpense(response.data.files)
+        showPagination(response.data)
+    })
+    .catch(err=>console.log(err))
+}
+
+
+
+
+
+// TO DOWNLOAD THE TXT FILE
+
+// function download(){
+//     const token = localStorage.getItem('token')
+//     axios.get('http://localhost:3000/expense/downloadexpense', {headers: {'Authorization': token}})
+//     .then(response => {
+//         if(response.status === 201) {
+
+//             let linksArray = response.data.allLinks
+//             console.log(linksArray)
+//             for(let i=0; i<linksArray.length; i++)
+//             {
+//                 showLinks(linksArray[i])
+//             }
+            
+//             //the backend is essentially sending a download link
+//             //  which if we open in browser, the file would download
+//             var a = document.createElement('a')
+//             a.href = response.data.fileURL
+//             a.download = 'myexpense.csv'
+//             a.click()
+//         }
+//         else{
+//             throw new Error(err)
+//         }
+//     })
+//     .catch(err => console.log(err))
+// }
+
+// function showLinks(urlObjects)
+// {
+//     let linksItems = document.getElementById('downloadlinks')
+//     let li =`<li>Date: ${urlObjects.createdAt}- Link: <a href="${urlObjects.dlink}">Download Links</a> </li>`
+//     linksItems.innerHTML = linksItems.innerHTML + li
+// }

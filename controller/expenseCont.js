@@ -5,6 +5,36 @@ const jwt = require('jsonwebtoken')
 const AWS = require('aws-sdk')
 const DownloadFiles = require('../model/downloadfile')
 
+
+//Pagination
+exports.getPagination = async (req,res)=> {
+    const ITEMS_PER_PAGE = 5
+    const page =  +req.query.page || 1 //req.query.page 
+    console.log('>>>>>>>>>>>>>>>>>>>',req.query, page )
+    let totalItems
+
+    DownloadFiles.count()
+    .then((total)=> {
+        totalItems=total
+        return DownloadFiles.findAll({
+            offset: (page - 1)*ITEMS_PER_PAGE,
+            limit: 5
+        })
+    })
+    .then((files)=> {
+        res.json({
+            files:files,
+            currentPage: page,
+            hasNextPage: ITEMS_PER_PAGE * page <totalItems,
+            nextPage: page+1,
+            hasPreviousPage: page > 1,
+            previousPage: page - 1,
+            lastPage: Math.ceil(totalItems/ITEMS_PER_PAGE)
+        })
+    })
+    .catch(err=>console.log(err))
+}
+
 exports.downloadexpense = async (req,res)=> {
  try{
    const expenses = await Expense.findAll({where : {userId : req.user.id}})
