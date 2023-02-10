@@ -2,6 +2,79 @@ const Expense = require('../model/expense')
 const User = require('../model/userModel')
 const jwt = require('jsonwebtoken')
 //const user = require('./userCont')
+const AWS = require('aws-sdk')
+const DownloadFiles = require('../model/downloadfile')
+
+exports.downloadexpense = async (req,res)=> {
+ try{
+   const expenses = await Expense.findAll({where : {userId : req.user.id}})
+   console.log('Expense Array>>>>>>>>>>>>>>>>>>>',expenses)
+
+   const stringifiedExpenses = JSON.stringify(expenses)
+
+   const userId = req.user.id
+   const filename = `Expenses${userId}/${new Date}.txt`
+   const fileURL = await uploadToS3(stringifiedExpenses, filename)
+
+   console.log('FileURL>>>>>', fileURL)
+   const createdLink = await DownloadFiles.create({dlink: fileURL, userId: userId})
+
+   const allLinks = await DownloadFiles.findAll()
+
+   return res.status(201).json({fileURL, allLinks: allLinks, success: true})
+ }
+ catch(err){
+    console.log(err)
+    res.status(500).json({fileURL: '', success: false})
+ }
+    
+
+   
+
+}
+
+async function uploadToS3(data, filename)
+{
+    try{
+        const BUCKET_NAME = 'expensetrackerappproject'
+        const IAM_USER_KEY = 'AKIAYEM5YODI4QWIWSMA'
+        const IAM_USER_SECRET = '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'
+
+        let s3Bucket = new AWS.S3({
+            accessKeyId: IAM_USER_KEY,
+            secretAccessKey: IAM_USER_SECRET,
+            //Bucket: BUCKET_NAME
+        })
+
+        
+        var params = {
+                Bucket: BUCKET_NAME,
+                Key: filename,
+                Body: data,
+                ACL: 'public-read'
+        }
+        return new Promise((resolve,reject)=> {
+            s3Bucket.upload(params, (err, s3response)=> {
+                if(err){
+                    reject(err)
+                }
+                else{
+                    console.log('Success', s3response)
+                    resolve(s3response.Location) 
+                }
+            })
+        })
+            
+    }
+    catch(err){
+        throw new Error(err)
+    }
+    
+    
+
+
+
+}
 
 exports.postAddExpense = async (req,res,next) => {
     try{
@@ -72,3 +145,4 @@ exports.deleteExpense = async (req,res,next) => {
     
 
 }
+

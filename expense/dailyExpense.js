@@ -175,13 +175,21 @@ function showOnBoardScreen(li)
 
 function download(){
     const token = localStorage.getItem('token')
-    axios.get('http://localhost:3000/user/download', {headers: {'Authorization': token}})
+    axios.get('http://localhost:3000/expense/downloadexpense', {headers: {'Authorization': token}})
     .then(response => {
         if(response.status === 201) {
+
+            let linksArray = response.data.allLinks
+            console.log(linksArray)
+            for(let i=0; i<linksArray.length; i++)
+            {
+                showLinks(linksArray[i])
+            }
+            
             //the backend is essentially sending a download link
             //  which if we open in browser, the file would download
             var a = document.createElement('a')
-            a.href = response.data.fileUrl
+            a.href = response.data.fileURL
             a.download = 'myexpense.csv'
             a.click()
         }
@@ -190,4 +198,11 @@ function download(){
         }
     })
     .catch(err => console.log(err))
+}
+
+function showLinks(urlObjects)
+{
+    let linksItems = document.getElementById('downloadlinks')
+    let li =`<li>Date: ${urlObjects.createdAt}- Link: <a href="${urlObjects.dlink}">Download Links</a> </li>`
+    linksItems.innerHTML = linksItems.innerHTML + li
 }

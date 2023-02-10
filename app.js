@@ -7,6 +7,8 @@ var cors = require('cors')
 const User = require('./model/userModel')
 const Expense = require('./model/expense')
 const Order = require('./model/orderModel')
+const ResetPass = require('./model/resetpassModel')
+const DownloadFiles = require('./model/downloadfile')
 
 const bodyParser = require('body-parser')
 
@@ -24,7 +26,7 @@ const expenseRoutes = require('./route/expenseR')
 const orderRoutes = require('./route/purchaseR')
 const premiumRoutes = require('./route/premiumR')
 const forgotRoutes = require('./route/forgotPassR')
-const ResetPass = require('./model/resetpassModel')
+
 
 
 app.use(bodyParser.json({extended: false}))
@@ -45,6 +47,11 @@ Order.belongsTo(User)
 
 User.hasMany(ResetPass)
 ResetPass.belongsTo(User)
+
+User.hasMany(DownloadFiles)
+DownloadFiles.belongsTo(User)
+
+
 
 
 sequelize .sync()

@@ -12,6 +12,8 @@ router.post('/expense/addexpense', userAuthentication.authenticate ,expenseContr
 
 router.get('/expense/getexpenses', userAuthentication.authenticate ,expenseController.getAllExpenses)
 
+router.get('/expense/downloadexpense', userAuthentication.authenticate,expenseController.downloadexpense)
+
 router.delete('/expense/delete-expense/:id', userAuthentication.authenticate , expenseController.deleteExpense)
 
 module.exports = router
