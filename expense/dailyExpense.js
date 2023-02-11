@@ -177,8 +177,10 @@ function showOnBoardScreen(li)
 
 function download(){
     const page =1
+    const limit = document.getElementById('show').value
+    console.log(limit)
 
-    axios.get(`http://localhost:3000/expense/pagination?page=${page}`)
+    axios.get(`http://localhost:3000/expense/pagination?page=${page}&limit=${limit}`)
     .then(response => {
         listExpense(response.data.files)
         showPagination(response.data)

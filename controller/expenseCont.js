@@ -10,26 +10,27 @@ const DownloadFiles = require('../model/downloadfile')
 exports.getPagination = async (req,res)=> {
     const ITEMS_PER_PAGE = 5
     const page =  +req.query.page || 1 //req.query.page 
-    console.log('>>>>>>>>>>>>>>>>>>>',req.query, page )
+    const limit = +req.query.limit || 1
+    console.log('>>>>>>>>>>>>>>>>>>>', page, limit )
     let totalItems
 
     DownloadFiles.count()
     .then((total)=> {
         totalItems=total
         return DownloadFiles.findAll({
-            offset: (page - 1)*ITEMS_PER_PAGE,
-            limit: 5
+            offset: (page - 1)*limit,
+            limit: limit
         })
     })
     .then((files)=> {
         res.json({
             files:files,
             currentPage: page,
-            hasNextPage: ITEMS_PER_PAGE * page <totalItems,
+            hasNextPage: limit * page <totalItems,
             nextPage: page+1,
             hasPreviousPage: page > 1,
             previousPage: page - 1,
-            lastPage: Math.ceil(totalItems/ITEMS_PER_PAGE)
+            lastPage: Math.ceil(totalItems/limit)
         })
     })
     .catch(err=>console.log(err))
