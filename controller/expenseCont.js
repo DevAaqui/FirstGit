@@ -67,9 +67,9 @@ exports.downloadexpense = async (req,res)=> {
 async function uploadToS3(data, filename)
 {
     try{
-        const BUCKET_NAME = 'expensetrackerappproject'
-        const IAM_USER_KEY = 'AKIAYEM5YODI4QWIWSMA'
-        const IAM_USER_SECRET = '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'
+        const BUCKET_NAME = process.env.AWS_BUCKET_NAME
+        const IAM_USER_KEY = process.env.AWS_IAM_USER_KEY
+        const IAM_USER_SECRET = process.env.AWS_IAM_USER_SECRET
 
         let s3Bucket = new AWS.S3({
             accessKeyId: IAM_USER_KEY,

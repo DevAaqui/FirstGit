@@ -10,12 +10,13 @@ const purchasepremium = async (req,res) => {
         return res.json({message:'premium user', success: true})
     }
     else{
-        
+        console.log('process.env>>>>>>>>>>>>>>>>>',process.env.RZP_KEY_ID)
             var rzp = new RazorPay({
-                key_id: 'rzp_test_HacVDpuUc2mpmx',
-                key_secret: 'aHtDdxQa1JAN3e38EyTeCwkw'
+                key_id: process.env.RZP_KEY_ID,
+                key_secret: process.env.RZP_KEY_SECRET
             })
             const amount = 2500
+            
     
             rzp.orders.create({amount, currency: "INR"}, (err, order) => { //calling razorpay backend
                 if(err){

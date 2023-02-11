@@ -178,9 +178,10 @@ function showOnBoardScreen(li)
 function download(){
     const page =1
     const limit = document.getElementById('show').value
+    const token = localStorage.getItem('token')
     console.log(limit)
 
-    axios.get(`http://localhost:3000/expense/pagination?page=${page}&limit=${limit}`)
+    axios.get(`http://localhost:3000/expense/pagination?page=${page}&limit=${limit}`, {headers: {'Authorization': token}})
     .then(response => {
         listExpense(response.data.files)
         showPagination(response.data)
