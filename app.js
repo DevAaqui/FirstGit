@@ -4,8 +4,12 @@ const path = require('path')
 const helmet = require('helmet')
 const morgan = require('morgan')
 const fs = require('fs')
+const dotenv = require('dotenv')
 
 var cors = require('cors')
+
+const app = express()
+dotenv.config({ path: './.env'});
 
 const User = require('./model/userModel')
 const Expense = require('./model/expense')
@@ -16,11 +20,6 @@ const DownloadFiles = require('./model/downloadfile')
 const bodyParser = require('body-parser')
 
 const sequelize = require('./util/database')
-
-const app = express()
-const dotenv = require('dotenv')
-
-dotenv.config({ path: './.env'});
 
 app.use(cors())
 
